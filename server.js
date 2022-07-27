@@ -33,32 +33,32 @@ app.post('/api/notes', (req, res) => {
     const { title, text } = req.body;
 
     if (req.body) {
-    const newNote = { title, text }
-    console.log(notes);
-    notes.push(newNote)
+      const newNote = { title, text }
+      // get info from file
+      fs.readFile('./db/db.json', (err, notes)  => {
+        if (err) throw err
+        var notesArray = JSON.parse(notes)
+        notesArray.notes.push(newNote)
+        console.log(notesArray)
 
-    // Convert the data to a string so we can save it
-    const reviewString = JSON.stringify(newNote);
+        // rewrite the file with updated data
+        fs.writeFile(`./db/db.json`, JSON.stringify(notesArray), (err) => {
+          if (err) {
+            console.error(err)
+          } else {
+            path.join(__dirname, '../db/db.json')
+            console.log(`Note for ${title} has been written to JSON file`)
+          }
+        });
+      });
 
-    // Write the string to a file
-    fs.appendFile(`./db/db.json`, reviewString, (err) => {
-      if (err) {
-        console.error(err)
-      } else {
-        path.join(__dirname, '../data/animals.json'),
-        console.log(`Note for ${newNote.title} has been written to JSON file`)
-      }
-    });
+      const response = {
+        status: 'success',
+      };
 
-    const response = {
-      status: 'success',
-      body: newNote,
-    };
-
-    console.log(response);
-    res.json(response);
+      res.json(response);
   } else {
-    res.json('Error in posting note');
+      res.json('Error in posting note');
   }
 });
 
