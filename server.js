@@ -29,26 +29,27 @@ app.post('/api/notes', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to add a note`);
 
-    // break down request
-    const { title, text } = req.body;
+    // // break down request
+    // const { title, text } = req.body;
 
-    if (title && text) {
-    const newNote = {
-      title, 
-      text
-    };
+    if (req.body) {
+    var notesArray = [];
+    const newNote = req.body
+    notesArray.push(newNote);
+    notes.push(notesArray)
 
     // Convert the data to a string so we can save it
     const reviewString = JSON.stringify(newNote);
 
     // Write the string to a file
-    fs.writeFile(`./db/db.json`, reviewString, (err) =>
-      err
-        ? console.error(err)
-        : console.log(
-            `Note for ${newNote.title} has been written to JSON file`
-          )
-    );
+    fs.appendFile(`./db/db.json`, reviewString, (err) => {
+      if (err) {
+        console.error(err)
+      } else {
+        path.join(__dirname, '../data/animals.json'),
+        console.log(`Note for ${newNote.title} has been written to JSON file`)
+      }
+    });
 
     const response = {
       status: 'success',
