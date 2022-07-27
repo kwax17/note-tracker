@@ -2,7 +2,6 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const { writeNote } = require("./lib/notes")
 
 // server
 const PORT = process.env.PORT || 3002;
