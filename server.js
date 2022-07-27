@@ -29,14 +29,13 @@ app.post('/api/notes', (req, res) => {
     // Log that a POST request was received
     console.info(`${req.method} request received to add a note`);
 
-    // // break down request
-    // const { title, text } = req.body;
+    // break down request
+    const { title, text } = req.body;
 
     if (req.body) {
-    var notesArray = [];
-    const newNote = req.body
-    notesArray.push(newNote);
-    notes.push(notesArray)
+    const newNote = { title, text }
+    console.log(notes);
+    notes.push(newNote)
 
     // Convert the data to a string so we can save it
     const reviewString = JSON.stringify(newNote);
