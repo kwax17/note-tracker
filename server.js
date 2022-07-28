@@ -32,25 +32,19 @@ app.post('/api/notes', (req, res) => {
 
   if (req.body) {
     const newNote = { title, text, id }
-    // get info from file
-    fs.readFile('./db/db.json', (err, notes)  => {
-      if (err) throw err
-      var notesArray = JSON.parse(notes)
-      notesArray.notes.push(newNote)
-      console.log(notesArray)
+    notes.push(newNote)
+    console.log(notes)
 
-      // rewrite the file with updated data
-      fs.writeFile(`./db/db.json`, JSON.stringify(notesArray), (err) => {
-        if (err) {
-          console.error(err)
-        } else {
-          path.join(__dirname, '../db/db.json')
-          console.log(`Note for ${title} has been written to JSON file`)
-        }
-      });
+    // rewrite the file with updated data
+    fs.writeFileSync(`./db/db.json`, JSON.stringify(notes), (err) => {
+      if (err) {
+        console.error(err)
+      } else {
+        path.join(__dirname, '../db/db.json')
+        console.log(`Note for ${title} has been written to JSON file`)
+      }
     });
-
-    res.json(notes);
+    res.json(newNote);
 } else {
     res.json('Error in posting note');
 }
