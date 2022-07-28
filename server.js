@@ -33,10 +33,10 @@ app.post('/api/notes', (req, res) => {
   if (req.body) {
     const newNote = { title, text, id }
     notes.push(newNote)
-    console.log(notes)
+    // console.log(notesArray)
 
     // rewrite the file with updated data
-    fs.writeFileSync(`./db/db.json`, JSON.stringify(notes), (err) => {
+    fs.writeFile(`./db/db.json`, JSON.stringify(notes), (err) => {
       if (err) {
         console.error(err)
       } else {
